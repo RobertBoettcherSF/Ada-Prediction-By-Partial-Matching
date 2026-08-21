@@ -4,17 +4,19 @@ GNAT = gnatmake
 OBJ_DIR = obj
 BIN_DIR = bin
 
-all: $(BIN_DIR)/main$(BIN_DIR)/tests
+all: $(BIN_DIR)/main $(BIN_DIR)/tests
 
-$(BIN_DIR)/main: main.adb ppm_algorithm.ads ppm_algorithm.adb
-	mkdir -p $(OBJ_DIR) $(BIN_DIR)$(GNAT) -o $(BIN_DIR)/main main.adb -D$(OBJ_DIR) -gnata
+$(BIN_DIR)/main: main.adb
+	mkdir -p $(OBJ_DIR) $(BIN_DIR)
+	$(GNAT) -o $(BIN_DIR)/main main.adb -D $(OBJ_DIR) -gnata
 
-$(BIN_DIR)/tests: tests.adb ppm_algorithm.ads ppm_algorithm.adb
-	mkdir -p $(OBJ_DIR) $(BIN_DIR)$(GNAT) -o $(BIN_DIR)/tests tests.adb -D$(OBJ_DIR) -gnata
+$(BIN_DIR)/tests: tests.adb
+	mkdir -p $(OBJ_DIR) $(BIN_DIR)
+	$(GNAT) -o $(BIN_DIR)/tests tests.adb -D $(OBJ_DIR) -gnata
 
 test: $(BIN_DIR)/tests
 	@echo "Running Verification & Validation tests..."
 	@$(BIN_DIR)/tests
 
 clean:
-	rm -rf $(OBJ_DIR)$(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
